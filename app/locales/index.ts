@@ -1,11 +1,9 @@
 import CN from "./cn";
 import EN from "./en";
-import TW from "./tw";
-import ES from "./es";
 
 export type { LocaleType } from "./cn";
 
-export const AllLangs = ["cn", "tw", "en", "es"] as const;
+export const AllLangs = ["cn", "en"] as const;
 type Lang = (typeof AllLangs)[number];
 
 const LANG_KEY = "lang";
@@ -21,7 +19,7 @@ function getItem(key: string) {
 function setItem(key: string, value: string) {
   try {
     localStorage.setItem(key, value);
-  } catch {}
+  } catch { }
 }
 
 function getLanguage() {
@@ -43,10 +41,6 @@ export function getLang(): Lang {
 
   if (lang.includes("zh") || lang.includes("cn")) {
     return "cn";
-  } else if (lang.includes("tw")) {
-    return "tw";
-  } else if (lang.includes("es")) {
-    return "es";
   } else {
     return "en";
   }
@@ -57,4 +51,4 @@ export function changeLang(lang: Lang) {
   location.reload();
 }
 
-export default { en: EN, cn: CN, tw: TW, es: ES }[getLang()];
+export default { en: EN, cn: CN }[getLang()];

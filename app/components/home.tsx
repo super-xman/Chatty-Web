@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { IconButton } from "./button";
 import styles from "./home.module.scss";
 
-import SettingsIcon from "../icons/settings.svg";
-import GithubIcon from "../icons/github.svg";
+import IdeaIcon from "../icons/idea.svg";
 import ChatGptIcon from "../icons/chatgpt.svg";
 
 import BotIcon from "../icons/bot.svg";
@@ -14,19 +13,8 @@ import AddIcon from "../icons/add.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 import CloseIcon from "../icons/close.svg";
 
-import {
-  Message,
-  SubmitKey,
-  useChatStore,
-  ChatSession,
-  BOT_HELLO,
-} from "../store";
-import {
-  copyToClipboard,
-  downloadAs,
-  isMobileScreen,
-  selectOrCopy,
-} from "../utils";
+import { useChatStore } from "../store";
+import { isMobileScreen } from "../utils";
 import Locale from "../locales";
 import { ChatList } from "./chat-list";
 import { Chat } from "./chat";
@@ -68,7 +56,8 @@ function useSwitchTheme() {
   }, [config.theme]);
 }
 
-const useHasHydrated = () => {
+// show loading while initing
+export const useHasHydrated = () => {
   const [hasHydrated, setHasHydrated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -131,36 +120,19 @@ export function Home() {
         </div>
 
         <div className={styles["sidebar-tail"]}>
-          <div className={styles["sidebar-actions"]}>
-            <div className={styles["sidebar-action"] + " " + styles.mobile}>
-              <IconButton
-                icon={<CloseIcon />}
-                onClick={() => {
-                  if (confirm(Locale.Home.DeleteChat)) {
-                    removeSession(currentIndex);
-                  }
-                }}
-              />
-            </div>
-            <div className={styles["sidebar-action"]}>
-              <IconButton
-                icon={<SettingsIcon />}
-                onClick={() => {
-                  setOpenSettings(true);
-                  setShowSideBar(false);
-                }}
-                shadow
-              />
-            </div>
-            <div className={styles["sidebar-action"]}>
-              <a href={REPO_URL} target="_blank">
-                <IconButton icon={<GithubIcon />} shadow />
-              </a>
-            </div>
-          </div>
-          <div>
+          <div className={styles["sidebar-action"]}>
             <IconButton
-              icon={<AddIcon />}
+              icon={<IdeaIcon />}
+              noDark={true}
+              onClick={() => {
+                setOpenSettings(true);
+                setShowSideBar(false);
+              }}
+              shadow
+            />
+          </div>
+          <div className={styles["sidebar-action"]}>
+            <IconButton
               text={Locale.Home.NewChat}
               onClick={() => {
                 createNewSession();
@@ -177,14 +149,13 @@ export function Home() {
           <Settings
             closeSettings={() => {
               setOpenSettings(false);
-              setShowSideBar(true);
             }}
           />
         ) : (
           <Chat
             key="chat"
             showSideBar={() => setShowSideBar(true)}
-            sideBarShowing={showSideBar}
+            showSetting={() => {setOpenSettings(true)}}
           />
         )}
       </div>

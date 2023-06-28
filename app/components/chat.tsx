@@ -2,7 +2,6 @@ import { useDebouncedCallback } from "use-debounce";
 import { useState, useRef, useEffect, useLayoutEffect } from "react";
 
 import SendWhiteIcon from "../icons/send-white.svg";
-import BrainIcon from "../icons/brain.svg";
 import ExportIcon from "../icons/export.svg";
 import MenuIcon from "../icons/menu.svg";
 import CopyIcon from "../icons/copy.svg";
@@ -11,6 +10,8 @@ import LoadingIcon from "../icons/three-dots.svg";
 import BotIcon from "../icons/bot.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
+import SettingsIcon from "../icons/settings.svg";
+
 
 import {
   Message,
@@ -133,7 +134,6 @@ function PromptToast(props: {
           role="button"
           onClick={() => props.setShowModal(true)}
         >
-          <BrainIcon />
           <span className={chatStyle["prompt-toast-content"]}>
             {Locale.Context.Toast(context.length)}
           </span>
@@ -298,7 +298,7 @@ function useScrollToBottom() {
 
 export function Chat(props: {
   showSideBar?: () => void;
-  sideBarShowing?: boolean;
+  showSetting?: () => void;
 }) {
   type RenderMessage = Message & { preview?: boolean };
 
@@ -499,11 +499,11 @@ export function Chat(props: {
           </div>
           <div className={styles["window-action-button"]}>
             <IconButton
-              icon={<BrainIcon />}
+              icon={<SettingsIcon />}
               bordered
-              title={Locale.Chat.Actions.CompressedHistory}
+              title={Locale.Settings.Title}
               onClick={() => {
-                setShowPromptModal(true);
+                props.showSetting?.();
               }}
             />
           </div>
@@ -626,7 +626,7 @@ export function Chat(props: {
               setAutoScroll(false);
               setTimeout(() => setPromptHints([]), 500);
             }}
-            autoFocus={!props?.sideBarShowing}
+            autoFocus={true}
           />
           <IconButton
             icon={<SendWhiteIcon />}

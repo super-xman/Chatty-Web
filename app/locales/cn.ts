@@ -40,7 +40,7 @@ const cn = {
     Copy: "全部复制",
   },
   Home: {
-    NewChat: "新的聊天",
+    NewChat: "新建对话",
     DeleteChat: "确认删除选中的对话？",
   },
   Settings: {
