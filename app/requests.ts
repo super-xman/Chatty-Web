@@ -159,6 +159,7 @@ export async function requestChatStream(
 
       options?.onController?.(controller);
 
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         // handle time out, will stop if no response in 10 secs
         const resTimeoutId = setTimeout(() => finish(), TIME_OUT_MS);
